@@ -55,8 +55,8 @@ public class Store {
         public String toString() {
             return String.format("\t+ %s - %s - %s",
                     partNumber,
-                    storePickupProductTitle,
-                    Constants.LOOKUP.get(partNumber));
+                    Constants.CARRIER_LOOKUP.get(partNumber),
+                    storePickupProductTitle);
         }
 
         @Override

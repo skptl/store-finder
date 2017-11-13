@@ -24,7 +24,7 @@ public class StoreFinder {
     private static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:56.0) Gecko/20100101 Firefox/56.0";
     private static final String HOST = "www.apple.com";
 
-    private static final String[] LOCATIONS = { "Palo Alto, CA", "San Francisco, CA", "Sacramento, CA", "Gilroy, CA" };
+    private static final String[] LOCATIONS = { "Palo Alto, CA", "San Francisco, CA", "Monterey, CA", "Gilroy, CA" };
 
 
     public static void main(String[] args) throws UnirestException {
