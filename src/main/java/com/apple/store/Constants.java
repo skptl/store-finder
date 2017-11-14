@@ -1,38 +1,56 @@
 package com.apple.store;
 
+import com.mashape.unirest.http.Unirest;
+
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
-public class Constants {
+final class Constants {
 
-    public static final String I_PHONE_X_64_GRAY_VZ      = "MQCK2LL/A";
-    public static final String I_PHONE_X_64_SILVER_VZ    = "MQCL2LL/A";
-    public static final String I_PHONE_X_256_GRAY_VZ     = "MQCN2LL/A";
-    public static final String I_PHONE_X_256_SILVER_VZ   = "MQCP2LL/A";
+    private static final String I_PHONE_X_64_GRAY_VZ      = "MQCK2LL/A";
+    private static final String I_PHONE_X_64_SILVER_VZ    = "MQCL2LL/A";
+    private static final String I_PHONE_X_256_GRAY_VZ     = "MQCN2LL/A";
+    private static final String I_PHONE_X_256_SILVER_VZ   = "MQCP2LL/A";
 
-    public static final String I_PHONE_X_64_GRAY_TM      = "MQAQ2LL/A";
-    public static final String I_PHONE_X_64_SILVER_TM    = "MQAR2LL/A";
-    public static final String I_PHONE_X_256_GRAY_TM     = "MQAU2LL/A";
-    public static final String I_PHONE_X_256_SILVER_TM   = "MQAV2LL/A";
+    private static final String I_PHONE_X_64_GRAY_TM      = "MQAQ2LL/A";
+    private static final String I_PHONE_X_64_SILVER_TM    = "MQAR2LL/A";
+    private static final String I_PHONE_X_256_GRAY_TM     = "MQAU2LL/A";
+    private static final String I_PHONE_X_256_SILVER_TM   = "MQAV2LL/A";
 
-    public static final String I_PHONE_X_64_GRAY_AT      = "MQAJ2LL/A";
-    public static final String I_PHONE_X_64_SILVER_AT    = "MQAK2LL/A";
-    public static final String I_PHONE_X_256_GRAY_AT     = "MQAM2LL/A";
-    public static final String I_PHONE_X_256_SILVER_AT   = "MQAN2LL/A";
+    private static final String I_PHONE_X_64_GRAY_AT      = "MQAJ2LL/A";
+    private static final String I_PHONE_X_64_SILVER_AT    = "MQAK2LL/A";
+    private static final String I_PHONE_X_256_GRAY_AT     = "MQAM2LL/A";
+    private static final String I_PHONE_X_256_SILVER_AT   = "MQAN2LL/A";
 
-    public static final String I_PHONE_X_64_GRAY_SP      = "MQCR2LL/A";
-    public static final String I_PHONE_X_64_SILVER_SP    = "MQCT2LL/A";
-    public static final String I_PHONE_X_256_GRAY_SP     = "MQCV2LL/A";
-    public static final String I_PHONE_X_256_SILVER_SP   = "MQCW2LL/A";
+    private static final String I_PHONE_X_64_GRAY_SP      = "MQCR2LL/A";
+    private static final String I_PHONE_X_64_SILVER_SP    = "MQCT2LL/A";
+    private static final String I_PHONE_X_256_GRAY_SP     = "MQCV2LL/A";
+    private static final String I_PHONE_X_256_SILVER_SP   = "MQCW2LL/A";
 
-    public static final String I_PHONE_X_64_GRAY_UN      = "MQA52LL/A";
-    public static final String I_PHONE_X_256_GRAY_UN     = "MQA82LL/A";
-    public static final String I_PHONE_X_64_SILVER_UN    = "MQA62LL/A";
-    public static final String I_PHONE_X_256_SILVER_UN   = "MQA92LL/A";
+    private static final String I_PHONE_X_64_GRAY_UN      = "MQA52LL/A";
+    private static final String I_PHONE_X_256_GRAY_UN     = "MQA82LL/A";
+    private static final String I_PHONE_X_64_SILVER_UN    = "MQA62LL/A";
+    private static final String I_PHONE_X_256_SILVER_UN   = "MQA92LL/A";
 
-    public static String[] AVAILABLE_PARTS = {
+    static final String API_PICK_UP = "https://www.apple.com/shop/retail/pickup-message";
+
+    static final String PARAM_PL = "pl";
+    static final String PARAM_PARTS = "parts.%d";
+    static final String PARAM_LOCATION = "location";
+
+    static final String HEADER_USER_AGENT = "User-Agent";
+    static final String HEADER_HOST = "Host";
+
+    static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:56.0) Gecko/20100101 Firefox/56.0";
+    static final String HOST = "www.apple.com";
+
+    static final int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors();
+    static final ScheduledExecutorService SCHEDULER = Executors.newScheduledThreadPool(THREAD_POOL_SIZE);
+    static final Map<String, String> CARRIER_LOOKUP = new HashMap<>();
+
+    static String[] AVAILABLE_PARTS = {
             I_PHONE_X_64_GRAY_VZ,   I_PHONE_X_256_GRAY_VZ,
             I_PHONE_X_64_SILVER_VZ, I_PHONE_X_256_SILVER_VZ,
             I_PHONE_X_64_GRAY_TM,   I_PHONE_X_256_GRAY_TM,
@@ -44,12 +62,6 @@ public class Constants {
             I_PHONE_X_64_GRAY_UN,   I_PHONE_X_256_GRAY_UN,
             I_PHONE_X_64_SILVER_UN, I_PHONE_X_256_SILVER_UN
     };
-
-    /*public static String[] UN_AVAILABLE_PARTS = {
-
-    };*/
-
-    public static Map<String, String> CARRIER_LOOKUP = new HashMap<>();
 
     static {
         CARRIER_LOOKUP.put(I_PHONE_X_64_GRAY_VZ, "Verizon");
@@ -76,8 +88,8 @@ public class Constants {
         CARRIER_LOOKUP.put(I_PHONE_X_256_GRAY_UN, "Unlocked");
         CARRIER_LOOKUP.put(I_PHONE_X_64_SILVER_UN, "Unlocked");
         CARRIER_LOOKUP.put(I_PHONE_X_256_SILVER_UN, "Unlocked");
-    }
 
-    public static final Set<Store> STORES = new HashSet<>();
+        Unirest.setObjectMapper(Mapper.instance());
+    }
 
 }

@@ -1,22 +1,41 @@
 package com.apple.store;
 
+import java.util.Collections;
 import java.util.List;
 
-public class Response {
+class Response {
+
+    static final String OK = "200";
+    Head head;
+    Body body;
+
+    boolean isOk() {
+        return head != null && OK.equals(head.status);
+    }
+
+    boolean notAvailableNearOneStore() {
+        return body != null &&
+                body.notAvailableNearOneStore != null &&
+                !body.notAvailableNearOneStore.isEmpty();
+    }
+
+    void printStores() {
+        if (notAvailableNearOneStore()) {
+            System.out.println(body.notAvailableNearOneStore);
+            return;
+        }
+        for (Store store : body.stores) {
+            store.printStore();
+        }
+    }
 
     static class Head {
-        public String status;
+        String status = "";
     }
 
     static class Body {
-        List<Store> stores;
-        public String notAvailableNearOneStore;
+        List<Store> stores = Collections.emptyList();
+        String notAvailableNearOneStore = "";
     }
 
-    public Head head;
-    public Body body;
-
-    public boolean isOk() {
-        return head != null && "200".equals(head.status);
-    }
 }

@@ -2,86 +2,16 @@ package com.apple.store;
 
 import java.util.*;
 
-public class Store {
+class Store {
 
-    static class Address {
-        public String address = "";
-        public String address2 = "";
-        public String postalCode = "";
-    }
-
-    static class StoreHours {
-        public List<Hours> hours = Collections.emptyList();
-        public String storeHoursText = "";
-
-        @Override
-        public String toString() {
-            StringBuilder builder = new StringBuilder();
-            for (Hours hour : hours) {
-                builder.append("     - ");
-                builder.append(hour.toString());
-                builder.append('\n');
-            }
-            return builder.toString();
-        }
-    }
-
-    static class Hours {
-        public String storeTimings = "";
-        public String storeDays = "";
-
-        @Override
-        public String toString() {
-            return String.format("%s %s", storeDays, storeTimings);
-        }
-    }
-
-    static class Part {
-
-        public static final String UNAVAILABLE ="unavailable";
-        public static final String AVAILABLE ="available";
-
-        public String purchaseOption = "";
-        public String storePickupQuote = "";
-        public boolean storeSelectionEnabled;
-        public String partNumber = "";
-        public final String partCarrier = "";
-        public final String partCapacity = "";
-        public final String partColor = "";
-        public String pickupDisplay = "";
-        public String storePickupProductTitle = "";
-
-        @Override
-        public String toString() {
-            return String.format("\t+ %s - %s - %s",
-                    partNumber,
-                    Constants.CARRIER_LOOKUP.get(partNumber),
-                    storePickupProductTitle);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Part part = (Part) o;
-            return partNumber.equals(part.partNumber);
-        }
-
-        @Override
-        public int hashCode() {
-            return partNumber.hashCode();
-        }
-    }
-
-    public final Set<Part> availability = new HashSet<>();
-    public boolean isSomethingAvailable = false;
-
-    public String storeNumber = "";
-    public String storeEmail = "";
-    public String phoneNumber = "";
-    public Map<String, Part> partsAvailability;
-    public Address address;
-    public StoreHours storeHours;
+    final Set<Part> availability = new HashSet<>();
+    boolean isSomethingAvailable = false;
+    String storeNumber = "";
+    String storeEmail = "";
+    String phoneNumber = "";
+    Map<String, Part> partsAvailability;
+    Address address;
+    StoreHours storeHours;
 
     boolean isSomethingAvailable() {
         for (Part part : partsAvailability.values()) {
@@ -112,7 +42,81 @@ public class Store {
                 isSomethingAvailable() ? "X" : "0",
                 address.address,
                 address.address2,
-                address.postalCode) ;
+                address.postalCode);
+    }
+
+    public void printStore() {
+        if (!isSomethingAvailable()) {
+            return;
+        }
+        for (Store.Part part : availability) {
+            System.out.println(part);
+        }
+    }
+
+    static class Address {
+        String address = "";
+        String address2 = "";
+        String postalCode = "";
+    }
+
+    static class StoreHours {
+        List<Hours> hours = Collections.emptyList();
+        String storeHoursText = "";
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            for (Hours hour : hours) {
+                builder.append("     - ");
+                builder.append(hour.toString());
+                builder.append('\n');
+            }
+            return builder.toString();
+        }
+    }
+
+    static class Hours {
+        String storeTimings = "";
+        String storeDays = "";
+
+        @Override
+        public String toString() {
+            return String.format("%s %s", storeDays, storeTimings);
+        }
+    }
+
+    static class Part {
+
+        static final String UNAVAILABLE = "unavailable";
+        static final String AVAILABLE = "available";
+        String purchaseOption = "";
+        String storePickupQuote = "";
+        boolean storeSelectionEnabled;
+        String partNumber = "";
+        String pickupDisplay = "";
+        String storePickupProductTitle = "";
+
+        @Override
+        public String toString() {
+            return String.format("\t+ %s - %s - %s",
+                    partNumber,
+                    Constants.CARRIER_LOOKUP.get(partNumber),
+                    storePickupProductTitle);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Part part = (Part) o;
+            return partNumber.equals(part.partNumber);
+        }
+
+        @Override
+        public int hashCode() {
+            return partNumber.hashCode();
+        }
     }
 
 }
